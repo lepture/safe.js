@@ -1,0 +1,7 @@
+components
+build
+node_modules
+safe.js
+lib/client.js
+index.html
+component.json

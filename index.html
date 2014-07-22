@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="safe.js"></script>
+    <script>
+      if (!Object.keys(safe.words).length) {
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+          if (xhr.readyState === 4) {
+            safe.cache(JSON.parse(xhr.response));
+          }
+        }
+        xhr.open('GET', 'lib/words.json');
+        xhr.send();
+      }
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Safe.js</h1>
+      <p>Check if your password is safe.</p>
+      <div>
+        <input id="password" type="text" placeholder="Your password">
+      </div>
+      <div>
+        <strong>Valid:</strong> <span id="valid"></span>
+        <strong>Strength:</strong> <span id="strength"></span>
+        <strong>Message:</strong> <span id="message"></span>
+      </div>
+    </div>
+    <script>
+      var input = document.getElementById('password');
+      var valid = document.getElementById('valid');
+      var strength = document.getElementById('strength');
+      var message = document.getElementById('message');
+      input.onkeyup = function() {
+        var ret = safe(input.value);
+        valid.innerHTML = ret.valid;
+        strength.innerHTML = ret.strength;
+        message.innerHTML = ret.message;
+      }
+    </script>
+  </body>
+</html>
