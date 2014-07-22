@@ -128,5 +128,5 @@ if (localStorage && localStorage.safeWords) {
 }
 
 // = safe;
-this.safe = safe;
+root.safe = safe;
 })(this);

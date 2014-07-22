@@ -12,7 +12,7 @@ standalone:
 	@echo "(function(root) {" > safe.js
 	@cat lib/index.js >> safe.js
 	@cat lib/client.js >> safe.js
-	@echo "this.safe = safe;" >> safe.js
+	@echo "root.safe = safe;" >> safe.js
 	@echo "})(this);" >> safe.js
 	@sed -i.bak "s/module.exports/\/\//g" safe.js
 	@sed -i.bak "s/var\ safe/\/\//g" safe.js
