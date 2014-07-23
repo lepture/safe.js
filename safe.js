@@ -125,6 +125,7 @@ safe.cache = function(words) {
 // load from local storage
 if (localStorage && localStorage.safeWords) {
   safe.words = JSON.parse(localStorage.safeWords);
+  safe.wordsLoaded = true;
 }
 
 // = safe;
