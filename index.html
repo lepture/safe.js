@@ -1,11 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html prefix="og: http://ogp.me/ns#">
   <head>
     <meta charset="UTF-8">
-    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>Safe.js</title>
+    <meta name="description" content="Is your password safe? Check the strength of your password with safe.js">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Safe.js">
+    <meta property="og:url" content="http://lab.lepture.com/safe.js/">
+    <meta property="og:description" content="Is your password safe? Check the strength of your password with safe.js">
+    <meta property="og:image" content="artwork/safe.svg">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@lepture">
+    <meta name="twitter:creator" content="@lepture">
+    <meta name="twitter:domain" content="lab.lepture.com">
     <script src="safe.js"></script>
     <script>
-      if (!Object.keys(safe.words).length) {
+      if (!safe.wordsLoaded) {
         var xhr = new XMLHttpRequest();
         xhr.onreadystatechange = function() {
           if (xhr.readyState === 4) {
@@ -16,31 +27,150 @@
         xhr.send();
       }
     </script>
+    <style>
+      body {
+        font-size: 18px;
+        font-family: "Avenir", "Helvetica Neue", "Helvetica", sans-serif;
+        text-align: center;
+      }
+      .container {
+        max-width: 640px;
+        margin: 40px auto 20px;
+      }
+      .header {
+        color: #697267;
+        padding: 20px 0 30px;
+      }
+      .header h1 {
+        color: #686868;
+        font-weight: 100;
+        font-size: 46px;
+      }
+      fieldset {
+        padding: 0;
+        margin: 0;
+        border: none;
+      }
+      .password-fieldset {
+        margin: 10px 40px;
+      }
+      .password-fieldset label {
+        color: #7c7c7c;
+        font: normal 500 18px/2 "Avenir", "Helvetica Neue", "Helvetica", sans-serif;
+      }
+      .password-fieldset input {
+        box-sizing: border-box;
+        border: none;
+        border-radius: 4px;
+        outline: none;
+        background: rgba(0,0,0,0.064);
+        padding: 8px 6px;
+        font: normal 300 18px/1 sans-serif;
+        text-align: center;
+        width: 100%;
+      }
+      #password-strength span {
+        display: inline-block;
+        width: 30%;
+        height: 14px;
+        margin-right: 1%;
+        background: rgba(0, 0, 0, 0.02);
+        background: rgba(0, 0, 0, 0.04);
+        -webkit-transition: background .2s ease-in-out;
+        -moz-transition: background .2s ease-in-out;
+        -ms-transition: background .2s ease-in-out;
+        transition: background .2s ease-in-out;
+      }
+      #password.invalid {
+        background: rgba(200,0,0,0.1);
+      }
+      #password.valid {
+        background: rgba(0,200,0,0.1);
+      }
+      #password-strength.simple span:first-of-type {
+        background: #EB5E34;
+      }
+      #password-strength.medium span {
+        background: #FCDB76;
+      }
+      #password-strength.medium span:last-of-type {
+        background: rgba(0, 0, 0, 0.04);
+      }
+      #password-strength.strong span {
+        background: #6BAB57;
+      }
+      #password-message {
+        margin-top: 10px;
+        color: #9c9c9c;
+        font-size: 14px;
+      }
+      .footer {
+        padding-top: 30px;
+        color: #666;
+        font: 500 16px/1.6 "Helvetica Neue", Helvetica, sans-serif;
+      }
+      .footer p {
+        margin-top: 40px;
+      }
+      .footer a {
+        color: #444;
+      }
+      .footer a.button {
+        color: #999;
+        font-size: 20px;
+        border: 3px solid #ccc;
+        padding: 10px 30px;
+        border-radius: 8px;
+        text-decoration: none;
+      }
+      .footer a.button:hover {
+        border-color: #aaa;
+      }
+      </style>
   </head>
   <body>
     <div class="container">
-      <h1>Safe.js</h1>
-      <p>Check if your password is safe.</p>
-      <div>
-        <input id="password" type="text" placeholder="Your password">
+      <div class="header">
+        <figure><img src="artwork/safe.svg" alt="safe logo" height="160"></figure>
+        <h1>Safe.js</h1>
+        <p class="description">Check if your password is safe.</p>
       </div>
-      <div>
-        <strong>Valid:</strong> <span id="valid"></span>
-        <strong>Strength:</strong> <span id="strength"></span>
-        <strong>Message:</strong> <span id="message"></span>
+      <fieldset class="password-fieldset">
+        <label for="password">Password</label>
+        <div id="password-input">
+          <input id="password" type="password" placeholder="Your password">
+        </div>
+        <div id="password-strength">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <div id="password-message">password is required</div>
+      </fieldset>
+      <div class="footer">
+        <p><a class="button" href="https://github.com/lepture/safe.js">View Documentation</a></p>
+        <p>A component by <a href="http://lepture.com/">Hsiaoming Yang</a></p>
       </div>
     </div>
     <script>
-      var input = document.getElementById('password');
-      var valid = document.getElementById('valid');
-      var strength = document.getElementById('strength');
-      var message = document.getElementById('message');
-      input.onkeyup = function() {
-        var ret = safe(input.value);
-        valid.innerHTML = ret.valid;
-        strength.innerHTML = ret.strength;
-        message.innerHTML = ret.message;
-      }
-    </script>
-  </body>
-</html>
+      (function() {
+        var input = document.getElementById('password');
+        var message = document.getElementById('password-message');
+        var strength = document.getElementById('password-strength');
+        input.onkeyup = function() {
+          if (!input.value) {
+            input.className = '';
+            strength.className = '';
+            message.innerHTML = 'password is required';
+            return;
+          }
+
+          var ret = safe(input.value);
+          input.className = ret.valid ? 'valid' : 'invalid';
+          strength.className = ret.strength;
+          message.innerHTML = ret.message;
+        }
+        })();
+      </script>
+    </body>
+  </html>
