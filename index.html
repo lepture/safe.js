@@ -15,7 +15,16 @@
     <meta name="twitter:creator" content="@lepture">
     <meta name="twitter:domain" content="lab.lepture.com">
     <script src="safe.js"></script>
-    <script>
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-21475122-5']);
+      _gaq.push(['_trackPageview']);
+      _gaq.push(['_trackPageLoadTime']);
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = 'https://ssl.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
       if (!safe.wordsLoaded) {
         var xhr = new XMLHttpRequest();
         xhr.onreadystatechange = function() {
@@ -35,7 +44,7 @@
       }
       .container {
         max-width: 640px;
-        margin: 40px auto 20px;
+        margin: 20px auto;
       }
       .header {
         color: #697267;
@@ -112,7 +121,7 @@
       .footer p {
         margin-top: 40px;
       }
-      .footer a {
+      .footer a, a {
         color: #444;
       }
       .footer a.button {
@@ -133,7 +142,7 @@
       <div class="header">
         <figure><img src="artwork/safe.png" alt="safe logo" height="160"></figure>
         <h1>Safe.js</h1>
-        <p class="description">Check if your password is safe.</p>
+        <p class="description">A JavaScript version of <a href="https://github.com/lepture/safe">Safe</a>. Check if your password is safe.</p>
       </div>
       <fieldset class="password-fieldset">
         <label for="password">Password</label>
