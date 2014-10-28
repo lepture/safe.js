@@ -3,6 +3,7 @@
 Is your password safe? This is a JavaScript fork of [safe](https://github.com/lepture/safe).
 
 [![Build Status](https://travis-ci.org/lepture/safe.js.png?branch=master)](https://travis-ci.org/lepture/safe.js)
+[![spm package](http://spmjs.io/badge/safe.js)](http://spmjs.io/package/safe.js)
 
 ## Installation
 
