@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/lepture/safe.js/issues"
   },
-  "homepage": "https://github.com/lepture/safe.js"
+  "homepage": "https://github.com/lepture/safe.js",
+  "spm": {
+    "main": "lib/client.js"
+  }
 }
